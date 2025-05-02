@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="card-body">
+ 
+      <!-- Show error message if email is not registered -->
+      <div *ngIf="!backendService.isEmailValid() && validationAttempted && submitted && !formInvalid" class="alert alert-danger">  
+        Denne e-post adressen eller brukernavnet er ikke registrert hos oss. Vennligst skriv inn e-postadressen eller brukernavnet du er registrert med i SmaRTWork-prosjektet.
+      </div>
+      
+      <mat-card style="background-color: rgba(111, 143, 228, 0.1)">
+        <mat-card-title>Oppgi e-post adressen din eller brukernavn ditt for å få tilsendt et nytt passord:</mat-card-title>
+        
+        <mat-card-content>
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="off">
+            <p>
+              <mat-form-field>
+                <input type="email" matInput placeholder="E-post" formControlName="email">
+                <mat-error *ngIf="loginForm.get('email')?.hasError('email')">Vennligst oppgi en gyldig e-post adresse</mat-error>
+              </mat-form-field>
+            </p>
+            <mat-card-title class="text-center">Eller :</mat-card-title>
+            <p>
+              <mat-form-field>
+                <input type="text" matInput placeholder="Brukernavn" formControlName="userId">
+              </mat-form-field>
+            </p>
+
+            <div *ngIf="formInvalid" class="alert alert-warning">
+              Du må oppgi enten e-post adresse eller brukernavn for å fortsette.
+            </div>
+            <div *ngIf="!backendService.isEmailValid() && validationAttempted && submitted && !formInvalid" class="alert alert-danger">  
+              Hvis du ikke husker hvilken e-post adresse som er registrert eller brukernavnet ditt kan du kontakte oss på smartwork&#64;idi.ntnu.no.
+            </div>
+            
+            <div class="button">
+              <button type="submit" mat-raised-button class="submit-button" >Send nytt passord</button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+
+<!--     
+
+warning if they get either one wrong : Hvis du ikke husker hvilken e-post adresse som er registrert 
+eller brukernavnet ditt kan du kontakte oss på smartwork@idi.ntnu.no 
+ -->
